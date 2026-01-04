@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minha-app
+  labels:
+    app: minha-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: minha-app
+  template:
+    metadata:
+      labels:
+        app: minha-app
+    spec:
+      containers:
+        - name: minha-app
+          # ATENÇÃO: A imagem será substituída pelo pipeline
+          image: IMAGEM_PLACEHOLDER
+          ports:
+            - containerPort: 8080
+          env: # <---- NOVO BLOCO A SER INSERIDO/MODIFICADO
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://${DB_HOST}:5432/mydatabase" # Usaremos o host correto
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgresadmin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "spoospoo"
+            # Você também pode usar variáveis diretas para testes
+            - name: DB_HOST # Usado na URL acima
+              value: "terraform-20251006022401200400000001.c5syg40e8lbk.us-east-1.rds.amazonaws.com"
+

@@ -1,0 +1,75 @@
+  name: CI/CD da Aplicação
+
+  on:
+    push:
+      branches: [ "master" ]
+    pull_request:
+      branches: [ "master" ]
+
+  permissions:
+    id-token: write
+    contents: read
+
+  jobs:
+    build-and-push:
+      name: Build e Push da Imagem
+      runs-on: ubuntu-latest
+
+      outputs:
+        image_tag: ${{ steps.build-image.outputs.image_tag }}
+
+      steps:
+        - name: Checkout do código
+          uses: actions/checkout@v3
+
+        - name: Configurar credenciais AWS
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Login no Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+
+        - name: Build, tag, e push da imagem
+          id: build-image
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            docker build -t $ECR_REGISTRY/${{ secrets.ECR_REPOSITORY_URI }}:$IMAGE_TAG .
+            docker push $ECR_REGISTRY/${{ secrets.ECR_REPOSITORY_URI }}:$IMAGE_TAG
+            echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    deploy:
+      name: Deploy no Kubernetes
+      runs-on: ubuntu-latest
+      needs: build-and-push # Depende do job de build l
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' # Roda apenas no merge para a main
+
+      steps:
+        - name: Checkout do código
+          uses: actions/checkout@v3
+
+        - name: Configurar credenciais AWS
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Instalar kubectl
+          run: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x kubectl
+            sudo mv kubectl /usr/local/bin/
+
+        - name: Configurar kubectl para o EKS
+          run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name aws-spoo-ent9-backend
+
+        - name: Atualizar manifesto com a nova imagem
+          run: |
+            sed -i "s|IMAGEM_PLACEHOLDER|${{ secrets.ECR_REPOSITORY_URI }}:${{ needs.build-and-push.outputs.image_tag }}|g" k8s/deployment.yaml
+
+        - name: Aplicar manifestos no Kubernetes
+          run: kubectl apply -f k8s/
