@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: "terraform-20251006022401200400000001.c5syg40e8lbk.us-east-1.rds.amazonaws.com"
+              value: "produtos-db.c5syg40e8lbk.us-east-1.rds.amazonaws.com"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://$(DB_HOST):5432/produtos_db"
             - name: SPRING_DATASOURCE_USERNAME
