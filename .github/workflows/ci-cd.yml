@@ -73,3 +73,5 @@
 
         - name: Aplicar manifestos no Kubernetes
           run: kubectl apply -f k8s/
+
+
