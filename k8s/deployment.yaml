@@ -1,11 +1,33 @@
-env:
-  - name: DB_HOST
-    value: "terraform-20251006022401200400000001.c5syg40e8lbk.us-east-1.rds.amazonaws.com"
-  - name: SPRING_DATASOURCE_URL
-    # Ajustado para produtos_db conforme o console RDS
-    value: "jdbc:postgresql://$(DB_HOST):5432/produtos_db"
-  - name: SPRING_DATASOURCE_USERNAME
-    # Ajustado para postgres_admin conforme o console RDS
-    value: "postgres_admin"
-  - name: SPRING_DATASOURCE_PASSWORD
-    value: "spoospoo" # Verifique se esta é a senha que você definiu para o postgres_admin
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minha-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: minha-app
+  template:
+    metadata:
+      labels:
+        app: minha-app
+    spec:
+      tolerations:
+        - key: "microservice"
+          operator: "Equal"
+          value: "produtos"
+          effect: "NoSchedule"
+      containers:
+        - name: minha-app
+          image: IMAGEM_PLACEHOLDER
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: "terraform-20251006022401200400000001.c5syg40e8lbk.us-east-1.rds.amazonaws.com"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://$(DB_HOST):5432/produtos_db"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres_admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "spoospoo"
