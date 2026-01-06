@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: minha-app-service
+  name: minha-app-produtos-service
 spec:
   selector:
-    app: minha-app
+    app: minha-app-produtos
   ports:
     - protocol: TCP
       port: 80
