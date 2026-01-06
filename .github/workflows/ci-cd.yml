@@ -67,9 +67,9 @@
         - name: Configurar kubectl para o EKS
           run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name eks-sistemapedidos-eks
 
-        - name: Atualizar manifesto com a nova imagem
+        - name: Atualizar imagem no Kubernetes
           run: |
-            sed -i "s|IMAGEM_PLACEHOLDER|${{ secrets.ECR_REPOSITORY_URI }}:${{ needs.build-and-push.outputs.image_tag }}|g" k8s/deployment.yaml
+            sed -i "s|IMAGEM_PLACEHOLDER|${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}|g" k8s/deployment.yaml
 
         - name: Aplicar manifestos no Kubernetes
           run: kubectl apply -f k8s/
