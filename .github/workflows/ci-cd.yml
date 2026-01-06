@@ -65,7 +65,7 @@
             sudo mv kubectl /usr/local/bin/
 
         - name: Configurar kubectl para o EKS
-          run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name aws-spoo-ent9-backend
+          run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name eks-sistemapedidos-eks
 
         - name: Atualizar manifesto com a nova imagem
           run: |
