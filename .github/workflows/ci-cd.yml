@@ -2,7 +2,7 @@ name: CI/CD da Aplicação
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # Adicionei sua branch de trabalho aqui
   pull_request:
     branches: [ "main" ]
 
@@ -14,7 +14,6 @@ jobs:
   build-and-push:
     name: Build e Push da Imagem
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
@@ -30,17 +29,15 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, e push da imagem
-        id: build-image
         run: |
-          # Como sua secret já tem o endereço completo, usamos ela direto
-          docker build -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} .
-          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+          # Usando o nome correto da sua secret: ECR_REPOSITORY_URI
+          docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }} .
+          docker push ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }}
 
   deploy:
     name: Deploy no Kubernetes
     runs-on: ubuntu-latest
     needs: build-and-push
-    # Ajustado para aceitar tanto a branch 'main' quanto a sua branch de trabalho se necessário
     if: github.event_name == 'push'
 
     steps:
@@ -58,8 +55,8 @@ jobs:
 
       - name: Atualizar imagem no Kubernetes
         run: |
-          # Aqui garantimos que o nome da imagem no YAML seja exatamente o que foi enviado ao ECR
-          sed -i "s|IMAGEM_PLACEHOLDER|${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}|g" k8s/deployment.yaml
+          # Usando o nome correto da sua secret aqui também
+          sed -i "s|IMAGEM_PLACEHOLDER|${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }}|g" k8s/deployment.yaml
 
       - name: Aplicar manifestos no Kubernetes
         run: kubectl apply -f k8s/
