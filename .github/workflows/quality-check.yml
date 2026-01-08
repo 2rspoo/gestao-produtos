@@ -33,7 +33,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       # PASSO 1: Build + Testes + Verificação de 70% (JaCoCo)
-      # Se a cobertura for < 70%, o comando 'verify' vai falhar aqui e nem roda o Sonar.
+      # Se a cobertura for < 70%, o comando 'verify' vai falhar1 aqui e nem roda o Sonar.
       - name: Build and Verify Coverage
         run: mvn -B clean verify
 
