@@ -6,10 +6,11 @@ Rodrigo Rabello Spoo - Discord: srsinistro9459 - 11 981046096
 
 Vídeo:
 https://www.youtube.com/watch?v=oYuT7maHG5g
+
 Repositório:
 https://github.com/2rspoo/gestao-produtos
 
-# 🍟 Gestão de Produtos 
+## 🍟 Gestão de Produtos 
 
 Este microsserviço é responsável pelo gerenciamento do catálogo de produtos da lanchonete. Ele permite a administração de **Categorias** (Lanche, Bebida, Sobremesa, Acompanhamento) e **Produtos**, servindo como fonte de dados para a montagem dos pedidos.
 
@@ -41,12 +42,12 @@ A aplicação está estruturada em camadas concêntricas:
 
 ## 🚀 Como Rodar o Projeto
 
-### Pré-requisitos
+## Pré-requisitos
 * Java 21 SDK
 * Maven
 * Docker (para banco de dados e Sonar)
 
-### Configuração de Ambiente
+## Configuração de Ambiente
 Configure as credenciais do banco de dados no arquivo `application.properties`:
 
 spring.datasource.url=jdbc:postgresql://localhost:5432/cardapio
@@ -54,7 +55,7 @@ spring.datasource.username=seu_user
 spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
 
-# 🧪 Testes e Qualidade
+## 🧪 Testes e Qualidade
 O projeto mantém uma alta cobertura de testes, validando tanto as entidades JPA quanto os Controladores e Use Cases.
 Rodar Testes (Unitários + Integração)
 Bashmvn clean test
@@ -62,7 +63,7 @@ Bashmvn clean test
 Relatório de Cobertura (JaCoCo)
 Verifique a porcentagem de código testado em:target/site/jacoco/index.html
 
-#🔌 API Endpoints 
+##🔌 API Endpoints 
 
 <img width="553" height="180" alt="image" src="https://github.com/user-attachments/assets/339ac6d8-48e4-4fcf-82c3-ead8ee3e7cd1" />
 
