@@ -62,6 +62,8 @@ Bashmvn clean test
 
 Relatório de Cobertura (JaCoCo)
 Verifique a porcentagem de código testado em:target/site/jacoco/index.html
+http://localhost:63342/gestao-produtos/cardapio/target/site/jacoco/index.html?_ijt=hfdvd8gbn6jp0dbhkknosktkhn&_ij_reload=RELOAD_ON_SAVE
+<img width="1290" height="233" alt="image" src="https://github.com/user-attachments/assets/0f9e1a23-1d96-4c1f-b6b9-ed5de3aa234c" />
 
 ##🔌 API Endpoints 
 
