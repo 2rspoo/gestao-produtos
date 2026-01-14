@@ -1,11 +1,11 @@
-Grupo 136
+Grupo 96
 
 Contribuições:
 Camila Rabello Spoo Goshima - Discord: camilaspoo - 11 973091025
 Rodrigo Rabello Spoo - Discord: srsinistro9459 - 11 981046096
 
 Vídeo:
-https://www.youtube.com/watch?v=oYuT7maHG5g
+https://www.youtube.com/watch?v=YQabQ-ai_8I
 
 Repositório:
 https://github.com/2rspoo/gestao-produtos
@@ -64,6 +64,8 @@ Relatório de Cobertura (JaCoCo)
 Verifique a porcentagem de código testado em:target/site/jacoco/index.html
 http://localhost:63342/gestao-produtos/cardapio/target/site/jacoco/index.html?_ijt=hfdvd8gbn6jp0dbhkknosktkhn&_ij_reload=RELOAD_ON_SAVE
 <img width="1290" height="233" alt="image" src="https://github.com/user-attachments/assets/0f9e1a23-1d96-4c1f-b6b9-ed5de3aa234c" />
+<img width="1118" height="202" alt="image" src="https://github.com/user-attachments/assets/07d49145-2eac-4f07-ad02-0e4ef5ba014a" />
+
 
 ##🔌 API Endpoints 
 
